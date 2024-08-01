@@ -1,0 +1,17 @@
+{
+	"applications": [
+		{
+			"id": 0,
+			"name": [ "master" ]
+		},
+		{
+			"id": 1,
+			"name": [ "spotify.exe" ]
+		},
+		{
+			"id": 2,
+			"name": [ "valorant.exe", "discord.exe" ]
+		}
+	],
+	"comport": "COM11"
+}
