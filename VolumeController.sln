@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Volume Controller", "Volume Controller\Volume Controller.vcxproj", "{D75CCFAA-2B9E-4E3C-A972-DDAAB2A85D88}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VolumeController", "Volume Controller\Volume Controller.vcxproj", "{D75CCFAA-2B9E-4E3C-A972-DDAAB2A85D88}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{677CE236-8CEA-4AD1-8AEC-89C86964415D}"
+	ProjectSection(SolutionItems) = preProject
+		code.py = code.py
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
