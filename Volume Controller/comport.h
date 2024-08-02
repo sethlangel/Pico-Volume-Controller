@@ -2,6 +2,7 @@
 
 #include <string>
 #include <windows.h>
+#include "volume.h"
 
 class Comport {
 private:
@@ -14,4 +15,5 @@ public:
     bool isInitialized() const;
     void configureComport();
     void setCommTimeouts();
+    void readFile(HANDLE hComm, Volume& volume, nlohmann::json& settings, Comport& comport);
 };

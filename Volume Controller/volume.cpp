@@ -34,7 +34,7 @@ void Volume::CleanUpAppVolume(IMMDeviceEnumerator* deviceEnumerator, IMMDevice* 
     CoUninitialize();
 }
 
-void Volume::handleVolumeChange(char* input) {
+void Volume::handleVolumeChange(char* input, nlohmann::json settings) {
     std::string strBuffer(input);
     size_t pos = strBuffer.find('_');
     int potId;
@@ -49,11 +49,19 @@ void Volume::handleVolumeChange(char* input) {
             fVolume = std::stof(volume) / 100.0f;
         }
 
-        if (potId == 0) {
-            SetMasterVolume(fVolume);
-        }
-        else {
-            SetApplicationVolume(stringToWString("discord.exe"), fVolume);
+        auto applications = settings["applications"];
+
+        for (auto& application : applications) {
+            if (application["id"] == potId) {
+                for (auto& appName : application["name"]) {
+                    if (appName == "master") {
+                        SetMasterVolume(fVolume);
+                    }
+                    else {
+                        SetApplicationVolume(stringToWString(appName), fVolume);
+                    }
+                }
+            }
         }
     }
 }

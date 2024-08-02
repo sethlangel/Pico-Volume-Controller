@@ -1,6 +1,8 @@
 #include "Comport.h"
 #include <iostream>
 #include "Strings.h"
+#include "json.hpp"
+#include "volume.h"
 
 Comport::Comport() : hComm(INVALID_HANDLE_VALUE) {}
 
@@ -70,5 +72,22 @@ void Comport::setCommTimeouts() {
 
     if (!SetCommTimeouts(hComm, &timeouts)) {
         std::cerr << "Error setting timeouts: " << GetLastError() << std::endl;
+    }
+}
+
+void Comport::readFile(HANDLE hComm, Volume& volume, nlohmann::json& settings, Comport& comport) {
+    char buffer[256];
+    DWORD bytesRead;
+
+    if (ReadFile(hComm, buffer, sizeof(buffer) - 1, &bytesRead, NULL)) {
+        if (bytesRead > 0) {
+            buffer[bytesRead] = '\0';
+
+            volume.handleVolumeChange(buffer, settings);
+        }
+    }
+    else {
+        DWORD dwError = GetLastError();
+        std::cerr << "Error reading from COM port: " << dwError << std::endl;
     }
 }

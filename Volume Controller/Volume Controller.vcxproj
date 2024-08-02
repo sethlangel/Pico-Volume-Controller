@@ -135,6 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="comport.h" />
+    <ClInclude Include="json.hpp" />
     <ClInclude Include="volume.h" />
   </ItemGroup>
   <ItemGroup>

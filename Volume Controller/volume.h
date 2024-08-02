@@ -4,6 +4,8 @@
 #include <endpointvolume.h>
 #include <audiopolicy.h>
 #include "strings.h"
+#include <fstream>
+#include "json.hpp"
 
 class Volume {
 private:
@@ -12,5 +14,5 @@ private:
     void SetMasterVolume(float volumeLevel);
     void SetApplicationVolume(const std::wstring& appName, float volumeLevel);
 public:
-    void handleVolumeChange(char* input);
+    void handleVolumeChange(char* input, nlohmann::json settings);
 };

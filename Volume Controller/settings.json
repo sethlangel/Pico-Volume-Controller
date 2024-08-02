@@ -10,7 +10,7 @@
 		},
 		{
 			"id": 2,
-			"name": [ "valorant.exe", "discord.exe" ]
+			"name": [ "discord.exe" ]
 		}
 	],
 	"comport": "COM11"
