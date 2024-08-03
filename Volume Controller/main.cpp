@@ -6,29 +6,44 @@
 #include "Comport.h"
 #include <fstream>
 #include "json.hpp"
+#include "strings.h"
 
 using json = nlohmann::json;
 
 int main()
 {
+    Comport comport;
+    Volume vVolume;
+
+    int potId;
+    float fVolume = 0.0f;
+
     std::ifstream f("settings.json");
     json settings = json::parse(f);
-    Comport comport;
-    Volume volume;
 
-    HANDLE hComm = INVALID_HANDLE_VALUE;
-
-    hComm = comport.initComport(settings["comport"]);
+    comport.initComport(settings["comport"]);
         
-
     if (comport.isInitialized()) {
         comport.configureComport();
     }
 
-    while (true) {
-        comport.readFile(hComm, volume, settings, comport);
+    while (comport.isInitialized()) {
+       std::string comData = comport.readFile();
+
+       splitData(comData, potId, fVolume);
+
+       auto applications = settings["applications"];
+
+       for (auto& application : applications) {
+           if (application["id"] == potId) {
+               for (auto& appName : application["name"]) {
+                   vVolume.handleVolumeChange(appName, fVolume);
+               }
+           }
+       }
+      
     }
 
-    CloseHandle(hComm);
+    comport.closeHComm();
     return 0;
 }

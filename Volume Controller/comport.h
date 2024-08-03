@@ -11,9 +11,10 @@ private:
 
 public:
     Comport();
-    HANDLE initComport(const std::string& comportName);
+    void initComport(const std::string& comportName);
     bool isInitialized() const;
     void configureComport();
     void setCommTimeouts();
-    void readFile(HANDLE hComm, Volume& volume, nlohmann::json& settings, Comport& comport);
+    std::string readFile();
+    void closeHComm();
 };

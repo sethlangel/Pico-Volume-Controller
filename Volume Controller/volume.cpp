@@ -34,35 +34,12 @@ void Volume::CleanUpAppVolume(IMMDeviceEnumerator* deviceEnumerator, IMMDevice* 
     CoUninitialize();
 }
 
-void Volume::handleVolumeChange(char* input, nlohmann::json settings) {
-    std::string strBuffer(input);
-    size_t pos = strBuffer.find('_');
-    int potId;
-    float fVolume = 0.0f;
-
-    if (pos != std::string::npos) {
-        potId = stoi(strBuffer.substr(0, pos));
-
-        size_t volumeStart = pos + 1;
-        if (volumeStart < strBuffer.length()) {
-            std::string volume = strBuffer.substr(volumeStart);
-            fVolume = std::stof(volume) / 100.0f;
-        }
-
-        auto applications = settings["applications"];
-
-        for (auto& application : applications) {
-            if (application["id"] == potId) {
-                for (auto& appName : application["name"]) {
-                    if (appName == "master") {
-                        SetMasterVolume(fVolume);
-                    }
-                    else {
-                        SetApplicationVolume(stringToWString(appName), fVolume);
-                    }
-                }
-            }
-        }
+void Volume::handleVolumeChange(std::string appName, float volume) {
+    if (appName == "master") {
+        SetMasterVolume(volume);
+    }
+    else {
+        SetApplicationVolume(stringToWString(appName), volume);
     }
 }
 

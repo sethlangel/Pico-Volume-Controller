@@ -6,7 +6,7 @@
 
 Comport::Comport() : hComm(INVALID_HANDLE_VALUE) {}
 
-HANDLE Comport::initComport(const std::string& comportName) {
+void Comport::initComport(const std::string& comportName) {
     std::wstring wComPort = stringToWString("\\\\.\\") + stringToWString(comportName);
 
     hComm = CreateFile(
@@ -24,8 +24,6 @@ HANDLE Comport::initComport(const std::string& comportName) {
     else {
         std::cout << "COM port opened successfully" << std::endl;
     }
-
-    return hComm;
 }
 
 bool Comport::isInitialized() const {
@@ -75,7 +73,7 @@ void Comport::setCommTimeouts() {
     }
 }
 
-void Comport::readFile(HANDLE hComm, Volume& volume, nlohmann::json& settings, Comport& comport) {
+std::string Comport::readFile() {
     char buffer[256];
     DWORD bytesRead;
 
@@ -83,11 +81,15 @@ void Comport::readFile(HANDLE hComm, Volume& volume, nlohmann::json& settings, C
         if (bytesRead > 0) {
             buffer[bytesRead] = '\0';
 
-            volume.handleVolumeChange(buffer, settings);
+            return std::string(buffer);
         }
     }
     else {
         DWORD dwError = GetLastError();
         std::cerr << "Error reading from COM port: " << dwError << std::endl;
     }
+}
+
+void Comport::closeHComm() {
+    CloseHandle(hComm);
 }

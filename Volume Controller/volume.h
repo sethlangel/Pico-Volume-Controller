@@ -14,5 +14,5 @@ private:
     void SetMasterVolume(float volumeLevel);
     void SetApplicationVolume(const std::wstring& appName, float volumeLevel);
 public:
-    void handleVolumeChange(char* input, nlohmann::json settings);
+    void handleVolumeChange(std::string appName, float volume);
 };
